@@ -1,0 +1,50 @@
+// Prisma schema for CurateKit.
+//
+// Data source is configured for Neon (Serverless Postgres):
+//  - DATABASE_URL   -> Neon pooled connection string (ends in ?pgbouncer=true)
+//  - DIRECT_URL     -> Neon direct connection string (used for migrations/Studio)
+//
+// See the README for how to obtain these from the Neon dashboard.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+/// Lifecycle state of a curated content idea.
+enum ContentStatus {
+  DRAFT
+  SCRIPTED
+  RECORDED
+}
+
+/// A registered user. `id` mirrors the Supabase auth user id so ownership is
+/// trivially kept in sync with authentication.
+model User {
+  id           String        @id
+  email        String        @unique
+  name         String?
+  createdAt    DateTime      @default(now()) @map("created_at")
+  contentItems ContentItem[]
+
+  @@map("users")
+}
+
+/// A curated content idea (news story / short-video script) owned by a User.
+model ContentItem {
+  id        String        @id @default(cuid())
+  title     String
+  sourceUrl String?       @map("source_url")
+  status    ContentStatus @default(DRAFT)
+  ownerId   String        @map("owner_id")
+  owner     User          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  createdAt DateTime      @default(now()) @map("created_at")
+
+  @@index([ownerId])
+  @@map("content_items")
+}
