@@ -16,12 +16,19 @@ SaaS so you can ship a product instead of boilerplate:
 | Error monitoring | Sentry |
 | Deployment | Vercel |
 
-PostHog and Sentry are **optional** — the app runs and builds fine when their
-environment variables are empty.
+Once you fill in `.env` (see *Quick start*) the kit runs end-to-end as-is — no
+code to write. **Supabase (Auth) and Neon (Postgres) are required**; PostHog and
+Sentry are optional, and the app runs and builds fine when their environment
+variables are empty.
 
 ---
 
 ## Quick start
+
+> **Prerequisites:** Node.js 18.17+ (Node 20 LTS recommended) and npm.
+
+> **Required to run end-to-end:** Supabase (auth) + Neon (database). PostHog and
+> Sentry are optional — see the setup guides below.
 
 ```bash
 # 1. Install dependencies
