@@ -47,6 +47,12 @@ npm run dev
 Open http://localhost:3000 — you can sign up, log in, and the dashboard will be
 empty until you add your first content idea.
 
+> **Just bought this kit?** Run the buyer fresh-clone check first — no `.env`,
+> no database needed:
+> `npm install && npm test && npm run build` → 24 tests green, build exit 0.
+> See [`docs/VERIFY-BUYER.md`](docs/VERIFY-BUYER.md) for what success looks
+> like (and its honest limits).
+
 ---
 
 ## 1. Supabase Auth — get the keys
@@ -232,6 +238,7 @@ curatekit/
 | Command | What it does |
 | ------- | ------------ |
 | `npm run dev` | Start the dev server |
+| `npm test` | Buyer-verification suite: auth + items CRUD vs. mocked Supabase/Prisma (no env vars, no DB) |
 | `npm run build` | Production build (must pass before deploying) |
 | `npm start` | Run the production build |
 | `npm run lint` | ESLint |
